@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 export type DataTableColumn<T> = {
 	key: string;
 	header: string;
+	headerAlign?: string;
 	className?: string;
 	render: (item: T) => ReactNode;
 };
@@ -37,7 +38,7 @@ export function DataTable<T>({ data, columns, getRowKey, emptyTitle = "Nenhum re
 					<thead className="bg-zinc-50">
 						<tr>
 							{columns.map((column) => (
-								<th key={column.key} className={` border-b border-zinc-200 px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 ${column.className ?? ""}`}>
+								<th key={column.key} className={` border-b border-zinc-200 px-5 py-4 text-${column.headerAlign ? column.headerAlign : "left"} text-xs font-semibold uppercase tracking-wide text-zinc-500 ${column.className ?? ""}`}>
 									{column.header}
 								</th>
 							))}

@@ -47,7 +47,7 @@ export function LoginForm() {
 				</div>
 			)}
 
-			<button type="submit" disabled={pending} className="w-full rounded-xl bg-zinc-950 px-4 py-3 font-medium text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer">
+			<button type="submit" disabled={pending} className="w-full rounded-xl bg-zinc-950 px-4 py-3 font-medium text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60">
 				{pending ? "Entrando..." : "Entrar"}
 			</button>
 		</form>

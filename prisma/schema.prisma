@@ -1,0 +1,168 @@
+generator client {
+	provider = "prisma-client"
+	output   = "../src/generated/prisma"
+}
+
+datasource db {
+	provider = "mysql"
+}
+
+enum AdminStatus {
+	ACTIVE
+	INACTIVE
+}
+
+enum GiftStatus {
+	AVAILABLE
+	RESERVED
+	COMPLETED
+	ARCHIVED
+}
+
+enum ContributionMethod {
+	PIX
+	STORE
+}
+
+enum ContributionStatus {
+	PENDING
+	RESERVED
+	CONFIRMED
+	CANCELED
+}
+
+enum LetterStatus {
+	PENDING
+	APPROVED
+	HIDDEN
+	REJECTED
+}
+
+model AdminUser {
+	id           String      @id @default(cuid())
+	name         String
+	email        String      @unique
+	passwordHash String      @db.VarChar(255)
+	status       AdminStatus @default(ACTIVE)
+
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+
+	@@map("admin_users")
+}
+
+model Gift {
+	id          String @id @default(cuid())
+	title       String @db.VarChar(150)
+	slug        String @unique @db.VarChar(180)
+	description String @db.Text
+	imageUrl    String? @db.VarChar(1000)
+
+	priceInCents Int
+
+	storeUrl          String? @db.VarChar(1000)
+	allowStorePurchase Boolean @default(false)
+	allowPix           Boolean @default(true)
+
+	quotaCount Int?
+
+	status       GiftStatus @default(AVAILABLE)
+	featured     Boolean    @default(false)
+	displayOrder Int        @default(0)
+
+	reservedUntil DateTime?
+
+	contributions Contribution[]
+	letters       Letter[]
+
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+
+	@@index([status])
+	@@index([displayOrder])
+	@@index([featured])
+	@@map("gifts")
+}
+
+model Contribution {
+	id     String @id @default(cuid())
+	giftId String
+
+	buyerName  String  @db.VarChar(150)
+	buyerEmail String? @db.VarChar(200)
+	buyerPhone String? @db.VarChar(30)
+
+	method ContributionMethod
+	status ContributionStatus @default(PENDING)
+
+	amountInCents Int
+	quotaQuantity Int?
+
+	paymentReceiptUrl String? @db.VarChar(1000)
+
+	reservedUntil DateTime?
+	confirmedAt   DateTime?
+	canceledAt    DateTime?
+
+	gift   Gift    @relation(fields: [giftId], references: [id], onDelete: Cascade)
+	letter Letter?
+
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+
+	@@index([giftId])
+	@@index([status])
+	@@index([method])
+	@@index([createdAt])
+	@@map("contributions")
+}
+
+model Letter {
+	id             String  @id @default(cuid())
+	giftId         String?
+	contributionId String? @unique
+
+	authorName  String @db.VarChar(150)
+	message     String @db.Text
+	isAnonymous Boolean @default(false)
+
+	status LetterStatus @default(PENDING)
+
+	gift Gift? @relation( fields: [giftId], references: [id], onDelete: SetNull )
+
+	contribution Contribution? @relation( fields: [contributionId], references: [id], onDelete: SetNull)
+
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+
+	@@index([giftId])
+	@@index([status])
+	@@index([createdAt])
+	@@map("letters")
+}
+
+model SiteSettings {
+	id String @id @default(cuid())
+
+	coupleName     String @db.VarChar(150)
+	heroTitle      String @db.VarChar(200)
+	heroDescription String @db.Text
+	heroImageUrl   String? @db.VarChar(1000)
+
+	movingDate DateTime?
+
+	pixKey          String? @db.VarChar(255)
+	pixKeyType      String? @db.VarChar(30)
+	pixReceiverName String? @db.VarChar(150)
+	pixCity         String? @db.VarChar(100)
+
+	whatsapp String? @db.VarChar(30)
+
+	lettersEnabled  Boolean @default(true)
+	publicGiftValues Boolean @default(true)
+
+	createdAt DateTime @default(now())
+	updatedAt DateTime @updatedAt
+
+	@@map("site_settings")
+	}

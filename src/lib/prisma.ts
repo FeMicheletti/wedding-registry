@@ -1,22 +1,22 @@
+import "server-only";
+
+import { PrismaClient } from "@prisma/client";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "@/generated/prisma/client";
 
-const createPrismaClient = () => {
-    const adapter = new PrismaMariaDb({
-        host: process.env.DATABASE_HOST,
-        port: Number(process.env.DATABASE_PORT ?? 3306),
-        user: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        database: process.env.DATABASE_NAME,
-        connectionLimit: 5,
-    });
+const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient; };
 
-    return new PrismaClient({ adapter });
-};
+const databaseUrl = process.env.DATABASE_URL;
+if (!databaseUrl) throw new Error("DATABASE_URL environment variable is not set");
 
-const globalForPrisma = globalThis as unknown as {
-    prisma: ReturnType<typeof createPrismaClient> | undefined;
-};
+const parsedUrl = new URL(databaseUrl);
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+const adapter = new PrismaMariaDb({
+	host: parsedUrl.hostname,
+	user: parsedUrl.username,
+	password: parsedUrl.password,
+	port: parsedUrl.port ? Number(parsedUrl.port) : undefined,
+	database: parsedUrl.pathname ? parsedUrl.pathname.replace(/^\//, "") : undefined,
+});
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter, log: ["error", "warn"], });
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

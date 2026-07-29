@@ -141,12 +141,12 @@ model Letter {
 }
 
 model SiteSettings {
-	id String @id @default(cuid())
+	id String @id @default("main")
 
-	coupleName     String @db.VarChar(150)
-	heroTitle      String @db.VarChar(200)
+	coupleName      String @db.VarChar(150)
+	heroTitle       String @db.VarChar(200)
 	heroDescription String @db.Text
-	heroImageUrl   String? @db.VarChar(1000)
+	heroImageUrl    String? @db.VarChar(1000)
 
 	movingDate DateTime?
 
@@ -157,7 +157,7 @@ model SiteSettings {
 
 	whatsapp String? @db.VarChar(30)
 
-	lettersEnabled  Boolean @default(true)
+	lettersEnabled   Boolean @default(true)
 	publicGiftValues Boolean @default(true)
 
 	createdAt DateTime @default(now())

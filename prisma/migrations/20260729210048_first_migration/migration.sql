@@ -84,7 +84,7 @@ CREATE TABLE `letters` (
 
 -- CreateTable
 CREATE TABLE `site_settings` (
-    `id` VARCHAR(191) NOT NULL,
+    `id` VARCHAR(191) NOT NULL DEFAULT 'main',
     `coupleName` VARCHAR(150) NOT NULL,
     `heroTitle` VARCHAR(200) NOT NULL,
     `heroDescription` TEXT NOT NULL,

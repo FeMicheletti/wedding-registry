@@ -13,6 +13,21 @@ CREATE TABLE `admin_users` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `admin_sessions` (
+    `id` VARCHAR(191) NOT NULL,
+    `adminUserId` VARCHAR(191) NOT NULL,
+    `tokenHash` CHAR(64) NOT NULL,
+    `expiresAt` DATETIME(3) NOT NULL,
+    `lastUsedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    UNIQUE INDEX `admin_sessions_tokenHash_key`(`tokenHash`),
+    INDEX `admin_sessions_adminUserId_idx`(`adminUserId`),
+    INDEX `admin_sessions_expiresAt_idx`(`expiresAt`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `gifts` (
     `id` VARCHAR(191) NOT NULL,
     `title` VARCHAR(150) NOT NULL,
@@ -102,6 +117,9 @@ CREATE TABLE `site_settings` (
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `admin_sessions` ADD CONSTRAINT `admin_sessions_adminUserId_fkey` FOREIGN KEY (`adminUserId`) REFERENCES `admin_users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `contributions` ADD CONSTRAINT `contributions_giftId_fkey` FOREIGN KEY (`giftId`) REFERENCES `gifts`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

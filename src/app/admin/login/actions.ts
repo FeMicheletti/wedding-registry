@@ -21,14 +21,14 @@ export type LoginActionState = {
 export async function loginAdminAction( _previousState: LoginActionState, formData: FormData ): Promise<LoginActionState> {
 	const validation = adminLoginSchema.safeParse({
 		email: formData.get("email"),
-		password: formData.get("password"),
+		password: formData.get("password")
 	});
 
 	if (!validation.success) {
 		return {
 			success: false,
 			message: "Verifique os dados informados.",
-			fieldErrors: validation.error.flatten().fieldErrors,
+			fieldErrors: validation.error.flatten().fieldErrors
 		};
 	}
 

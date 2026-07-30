@@ -14,6 +14,7 @@ const checkboxSchema = z
 const optionalUrlSchema = z
 	.string()
 	.trim()
+	.nullish()
 	.transform((value) => value || null)
 	.refine((value) => value === null || z.string().url().safeParse(value).success, "Informe uma URL válida." );
 
@@ -50,6 +51,7 @@ export const giftFormSchema = z
 		quotaCount: z
 			.string()
 			.trim()
+			.nullish()
 			.transform((value) => {
 				if (!value) return null;
 				return Number(value);

@@ -67,9 +67,9 @@ export function GiftForm({ action, initialState, initialValues = defaultValues, 
 
 	return (
 		<form action={formAction} className="space-y-8">
-			<section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+			<section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
 				<div className="mb-6">
-					<h2 className="text-lg font-semibold text-zinc-950">
+					<h2 className="text-base font-semibold sm:text-lg text-zinc-950">
 						Informações do presente
 					</h2>
 
@@ -78,7 +78,7 @@ export function GiftForm({ action, initialState, initialValues = defaultValues, 
 					</p>
 				</div>
 
-				<div className="grid gap-6 md:grid-cols-2">
+				<div className="grid gap-5 sm:p-6 md:grid-cols-2">
 					<div className="space-y-2 md:col-span-2">
 						<label htmlFor="title" className="text-sm font-medium text-zinc-800">
 							Título
@@ -121,9 +121,9 @@ export function GiftForm({ action, initialState, initialValues = defaultValues, 
 				</div>
 			</section>
 
-			<section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+			<section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
 				<div className="mb-6">
-					<h2 className="text-lg font-semibold text-zinc-950">
+					<h2 className="text-base font-semibold sm:text-lg text-zinc-950">
 						Formas de presentear
 					</h2>
 
@@ -171,9 +171,9 @@ export function GiftForm({ action, initialState, initialValues = defaultValues, 
 				<FieldError errors={state.fieldErrors?.allowPix}/>
 			</section>
 
-			<section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+			<section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
 				<div className="mb-6">
-					<h2 className="text-lg font-semibold text-zinc-950">
+					<h2 className="text-base font-semibold sm:text-lg text-zinc-950">
 						Cotas
 					</h2>
 					<p className="mt-1 text-sm text-zinc-500">
@@ -206,7 +206,7 @@ export function GiftForm({ action, initialState, initialValues = defaultValues, 
 				)}
 			</section>
 
-			<section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+			<section className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
 				<label className="flex cursor-pointer items-start gap-3">
 					<input name="featured" type="checkbox" defaultChecked={initialValues.featured} className="mt-1 h-4 w-4 rounded border-zinc-300"/>
 					<span>
@@ -227,11 +227,11 @@ export function GiftForm({ action, initialState, initialValues = defaultValues, 
 			)}
 
 			<div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-				<Link href="/admin/presentes" className="inline-flex items-center justify-center rounded-xl border border-zinc-300 bg-white px-5 py-3 text-sm font-medium text-zinc-700 transition hover:border-zinc-400 hover:bg-zinc-100">
+				<Link href="/admin/presentes" className="inline-flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white px-5 py-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 sm:w-auto">
 					Cancelar
 				</Link>
 
-				<button type="submit" disabled={pending} className="inline-flex items-center justify-center rounded-xl bg-zinc-950 px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60">
+				<button type="submit" disabled={pending} className="inline-flex w-full items-center justify-center rounded-xl bg-zinc-950 px-6 py-3 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-60 sm:w-auto">
 					{pending ? "Salvando..." : submitLabel}
 				</button>
 			</div>

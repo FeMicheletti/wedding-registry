@@ -86,6 +86,57 @@ export function PendingLettersTable({ letters }: PendingLettersTableProps) {
 			columns={columns}
 			getRowKey={(letter) => letter.id}
 			emptyTitle="Nenhuma cartinha aguardando aprovação"
-			emptyDescription="As novas mensagens aparecerão aqui."/>
+			emptyDescription="As novas mensagens aparecerão aqui."
+			renderMobileItem={(letter) => (
+				<article className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<div className="flex items-start justify-between gap-3">
+						<div className="min-w-0">
+							<p className="font-semibold text-zinc-950">
+								{letter.authorName}
+							</p>
+
+							{letter.isAnonymous && (
+								<p className="mt-1 text-xs text-zinc-500">
+									Será exibida como anônima
+								</p>
+							)}
+						</div>
+
+						<StatusBadge label="Pendente" variant="pending"/>
+					</div>
+
+					<div className="mt-4 rounded-xl bg-zinc-50 p-4">
+						<p className="line-clamp-4 wrap-break-words text-sm leading-6 text-zinc-700">
+							{letter.message}
+						</p>
+					</div>
+
+					<dl className="mt-4 grid gap-3 text-sm">
+						<div className="flex items-start justify-between gap-4">
+							<dt className="text-zinc-500">
+								Presente
+							</dt>
+
+							<dd className="text-right font-medium text-zinc-900">
+								{letter.gift?.title ?? "Cartinha geral"}
+							</dd>
+						</div>
+
+						<div className="flex items-start justify-between gap-4">
+							<dt className="text-zinc-500">
+								Enviada em
+							</dt>
+
+							<dd className="text-right text-zinc-700">
+								{formatDate(letter.createdAt)}
+							</dd>
+						</div>
+					</dl>
+
+					<Link href={`/admin/cartinhas/${letter.id}`} className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-zinc-950 px-4 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.98]">
+						Revisar cartinha
+					</Link>
+				</article>
+			)}/>
 	);
 }

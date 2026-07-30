@@ -91,24 +91,22 @@ export default async function AdminDashboardPage() {
 	];
 
 	return (
-		<div className="space-y-10">
+		<div className="space-y-8 sm:space-y-10">
 			<div>
 				<p className="text-sm font-medium text-zinc-500">
 					Administração
 				</p>
-
-				<h1 className="mt-1 text-3xl font-semibold tracking-tight text-zinc-950">
+				<h1 className="mt-1 text-2xl font-semibold tracking-tight text-zinc-950 sm:text-3xl">
 					Visão geral
 				</h1>
-
 				<p className="mt-2 text-zinc-600">
 					Acompanhe os presentes e mensagens recebidas.
 				</p>
 			</div>
 
-			<section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+			<section className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
 				{cards.map((card) => (
-					<article key={card.label} className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md">
+					<article className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md sm:p-6">
 						<p className="text-sm font-medium text-zinc-500">
 							{card.label}
 						</p>

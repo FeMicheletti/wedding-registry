@@ -79,6 +79,57 @@ export function PendingContributionsTable({ contributions }: PendingContribution
 			columns={columns}
 			getRowKey={(contribution) => contribution.id}
 			emptyTitle="Nenhum presente aguardando aprovação"
-			emptyDescription="As novas contribuições aparecerão aqui." />
+			emptyDescription="As novas contribuições aparecerão aqui." 
+			renderMobileItem={(contribution) => (
+				<article className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+					<div className="flex items-start justify-between gap-3">
+						<div className="min-w-0">
+							<h3 className="font-semibold text-zinc-950">
+								{contribution.gift.title}
+							</h3>
+
+							<p className="mt-1 text-sm text-zinc-500">
+								Enviado por {contribution.buyerName}
+							</p>
+						</div>
+
+						<StatusBadge label={contribution.method === "PIX" ? "Pix" : "Compra na loja"} variant="pending"/>
+					</div>
+
+					<div className="mt-5 rounded-xl bg-zinc-50 p-4">
+						<p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+							Valor
+						</p>
+
+						<p className="mt-1 text-xl font-semibold text-zinc-950">
+							{formatCurrency( contribution.amountInCents )}
+						</p>
+					</div>
+
+					<dl className="mt-4 grid gap-3 text-sm">
+						<div className="flex items-start justify-between gap-4">
+							<dt className="text-zinc-500">
+								Forma
+							</dt>
+							<dd className="text-right font-medium text-zinc-900">
+								{contribution.method === "PIX" ? "Pagamento por Pix" : "Compra pela loja"}
+							</dd>
+						</div>
+
+						<div className="flex items-start justify-between gap-4">
+							<dt className="text-zinc-500">
+								Enviado em
+							</dt>
+							<dd className="text-right text-zinc-700">
+								{formatDate(contribution.createdAt)}
+							</dd>
+						</div>
+					</dl>
+
+					<Link href={`/admin/contribuicoes/${contribution.id}`} className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-zinc-950 px-4 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.98]">
+						Revisar contribuição
+					</Link>
+				</article>
+			)}/>
 	);
 }
